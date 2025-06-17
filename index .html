@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀번호 생성기</title>
+</head>
+<body>
+    <h1>🔐 비밀번호 생성기</h1>
+
+    <label>비밀번호 길이:
+        <input type="number" id="length" min="4" max="50" value="12">
+    </label><br><br>
+
+    <label>
+        <input type="checkbox" id="includeUpper"> 대문자 포함
+    </label><br>
+
+    <label>
+        <input type="checkbox" id="includeNumbers" checked> 숫자 포함
+    </label><br>
+
+    <label>
+        <input type="checkbox" id="includeSymbols" checked> 특수문자 포함
+    </label><br><br>
+
+    <button onclick="generatePassword()">비밀번호 생성</button>
+
+    <h3>생성된 비밀번호:</h3>
+    <p id="result" style="font-weight: bold; font-size: 1.2em;"></p>
+
+    <script>
+        function generatePassword() {
+            const length = parseInt(document.getElementById("length").value);
+            const includeUpper = document.getElementById("includeUpper").checked;
+            const includeNumbers = document.getElementById("includeNumbers").checked;
+            const includeSymbols = document.getElementById("includeSymbols").checked;
+
+            const lower = "abcdefghijklmnopqrstuvwxyz";
+            const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const numbers = "0123456789";
+            const symbols = "!@#$%^&*()_+~<>?:{}";
+
+            let charset = lower;
+            if (includeUpper) charset += upper;
+            if (includeNumbers) charset += numbers;
+            if (includeSymbols) charset += symbols;
+
+            if (charset.length === 0) {
+                document.getElementById("result").innerText = "⚠ 문자 종류를 선택하세요.";
+                return;
+            }
+
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * charset.length);
+                password += charset[randomIndex];
+            }
+
+            document.getElementById("result").innerText = password;
+        }
+    </script>
+</body>
+</html>
